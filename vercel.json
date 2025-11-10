@@ -4,5 +4,6 @@
       "NEXT_USE_WEBPACK": "1"
     }
   },
+  "installCommand": "bash vercel-install.sh",
   "buildCommand": "next build --webpack"
 }
