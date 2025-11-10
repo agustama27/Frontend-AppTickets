@@ -1,5 +1,8 @@
 {
-  "framework": null,
-  "buildCommand": "pnpm install && next build --webpack",
-  "outputDirectory": ".next"
+  "build": {
+    "env": {
+      "NEXT_USE_WEBPACK": "1"
+    }
+  },
+  "buildCommand": "next build --webpack"
 }
