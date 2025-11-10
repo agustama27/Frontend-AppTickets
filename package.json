@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build --webpack",
+    "build": "next build",
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start"
@@ -48,10 +48,10 @@
     "date-fns": "latest",
     "immer": "latest",
     "lucide-react": "^0.454.0",
-    "next": "16.0.1",
+    "next": "^15.1.4",
     "next-themes": "latest",
-    "react": "19.2.0",
-    "react-dom": "19.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "socket.io-client": "latest",
     "tailwind-merge": "^2.5.5",
     "use-sync-external-store": "latest",
@@ -63,8 +63,8 @@
   },
   "devDependencies": {
     "@types/node": "^22",
-    "@types/react": "19.2.2",
-    "@types/react-dom": "19.2.2",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
     "typescript": "^5"
   }
 }
