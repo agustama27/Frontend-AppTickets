@@ -1,5 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
+import Script from "next/script"
 import { Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Providers } from "@/components/providers"
@@ -36,16 +37,23 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const envApiUrl = process.env.NEXT_PUBLIC_API_BASE_URL || ""
+  const envWsUrl = process.env.NEXT_PUBLIC_WS_URL || ""
+  const apiBaseUrl = envApiUrl || "http://localhost:8080"
+  const wsUrl = envWsUrl || apiBaseUrl
+
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
-        <script
+      <body className={`font-sans antialiased`}>
+        <Script
+          id="app-config-init"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
                 try {
-                  const envApiUrl = '${process.env.NEXT_PUBLIC_API_BASE_URL || ""}';
-                  const envWsUrl = '${process.env.NEXT_PUBLIC_WS_URL || ""}';
+                  const envApiUrl = '${envApiUrl}';
+                  const envWsUrl = '${envWsUrl}';
                   const apiBaseUrl = envApiUrl || 'http://localhost:8080';
                   const wsUrl = envWsUrl || apiBaseUrl;
                   
@@ -69,8 +77,6 @@ export default function RootLayout({
             `,
           }}
         />
-      </head>
-      <body className={`font-sans antialiased`}>
         <Providers>{children}</Providers>
         <Analytics />
       </body>
