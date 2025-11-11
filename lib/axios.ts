@@ -29,8 +29,11 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Redirect to login if unauthorized
-      if (typeof window !== "undefined" && window.location.pathname !== "/login") {
+      // Don't redirect on /auth/session - let the layout handle it
+      // Only redirect on other endpoints to avoid redirect loops
+      const isSessionCheck = error.config?.url?.includes("/auth/session")
+      
+      if (!isSessionCheck && typeof window !== "undefined" && window.location.pathname !== "/login") {
         window.location.href = "/login"
       }
     }
