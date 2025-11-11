@@ -1,8 +1,8 @@
 "use client"
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { ticketsApi, type TicketFilters } from "@/lib/api"
-import type { Ticket } from "@/types"
+import { ticketsApi } from "@/lib/api"
+import type { Ticket, TicketFilters } from "@/types"
 
 export const useTickets = (filters: TicketFilters = {}) => {
   return useQuery({
