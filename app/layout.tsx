@@ -38,6 +38,38 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const envApiUrl = '${process.env.NEXT_PUBLIC_API_BASE_URL || ""}';
+                  const envWsUrl = '${process.env.NEXT_PUBLIC_WS_URL || ""}';
+                  const apiBaseUrl = envApiUrl || 'http://localhost:8080';
+                  const wsUrl = envWsUrl || apiBaseUrl;
+                  
+                  window.__APP_CONFIG__ = {
+                    API_BASE_URL: apiBaseUrl,
+                    WS_URL: wsUrl,
+                    NEXT_PUBLIC_API_BASE_URL: envApiUrl || undefined,
+                    NEXT_PUBLIC_WS_URL: envWsUrl || undefined,
+                    isConfigured: !!envApiUrl,
+                    usingDefault: !envApiUrl,
+                    help: envApiUrl
+                      ? 'Variables configuradas correctamente'
+                      : '⚠️ Variables no configuradas. Ve a Vercel → Settings → Environment Variables y agrega NEXT_PUBLIC_API_BASE_URL'
+                  };
+                  
+                  console.log('🔧 Config inicializada en window.__APP_CONFIG__:', window.__APP_CONFIG__);
+                } catch (e) {
+                  console.error('Error inicializando config:', e);
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className={`font-sans antialiased`}>
         <Providers>{children}</Providers>
         <Analytics />
