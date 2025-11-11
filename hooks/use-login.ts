@@ -9,9 +9,11 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) =>
       authApi.login(email, password),
-    onSuccess: () => {
-      // Invalidate session query to refetch user data
-      queryClient.invalidateQueries({ queryKey: ["auth", "session"] })
+    onSuccess: async () => {
+      // Invalidate and refetch session query to get user data
+      await queryClient.invalidateQueries({ queryKey: ["auth", "session"] })
+      // Refetch to ensure we have the user data before redirecting
+      await queryClient.refetchQueries({ queryKey: ["auth", "session"] })
     },
   })
 }

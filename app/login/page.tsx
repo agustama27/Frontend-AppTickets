@@ -26,7 +26,10 @@ export default function LoginPage() {
         title: "Inicio de sesión exitoso",
         description: "¡Bienvenido de nuevo!",
       })
+      // Small delay to ensure session is set before redirecting
+      await new Promise((resolve) => setTimeout(resolve, 100))
       router.push("/")
+      router.refresh() // Force refresh to update the layout
     } catch (error: any) {
       toast({
         title: "Error al iniciar sesión",
