@@ -14,7 +14,7 @@ export function ConfigInit() {
       const envApiUrl = process.env.NEXT_PUBLIC_API_BASE_URL
       const envWsUrl = process.env.NEXT_PUBLIC_WS_URL
 
-      ;(window as any).__APP_CONFIG__ = {
+      const config = {
         API_BASE_URL,
         WS_URL,
         // Variables de entorno originales (pueden ser undefined si no están configuradas)
@@ -29,10 +29,11 @@ export function ConfigInit() {
           : "⚠️ Variables no configuradas. Ve a Vercel → Settings → Environment Variables y agrega NEXT_PUBLIC_API_BASE_URL",
       }
 
-      // Log para debugging
-      if (process.env.NODE_ENV === "development") {
-        console.log("🔧 Config inicializada:", (window as any).__APP_CONFIG__)
-      }
+      // Asignar al objeto window
+      ;(window as any).__APP_CONFIG__ = config
+
+      // Log siempre (también en producción para debugging)
+      console.log("🔧 Config inicializada en window.__APP_CONFIG__:", config)
     }
   }, [])
 
