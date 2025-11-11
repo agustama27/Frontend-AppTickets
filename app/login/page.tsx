@@ -31,9 +31,33 @@ export default function LoginPage() {
       router.push("/")
       router.refresh() // Force refresh to update the layout
     } catch (error: any) {
+      console.error("Error de login:", error)
+      
+      let errorMessage = "Credenciales incorrectas"
+      
+      if (error?.response) {
+        // Error del servidor
+        const status = error.response.status
+        const data = error.response.data
+        
+        if (status === 401) {
+          errorMessage = data?.message || "Email o contraseña incorrectos"
+        } else if (status === 404) {
+          errorMessage = "Usuario no encontrado. Verifica que el usuario exista en la base de datos."
+        } else if (status === 500) {
+          errorMessage = "Error del servidor. Verifica que el backend esté funcionando correctamente."
+        } else {
+          errorMessage = data?.message || `Error ${status}: ${error.message}`
+        }
+      } else if (error?.code === "ERR_NETWORK") {
+        errorMessage = "No se pudo conectar al servidor. Verifica que el backend esté corriendo."
+      } else if (error?.message) {
+        errorMessage = error.message
+      }
+      
       toast({
         title: "Error al iniciar sesión",
-        description: error?.response?.data?.message || error?.message || "Credenciales incorrectas",
+        description: errorMessage,
         variant: "destructive",
       })
     }
